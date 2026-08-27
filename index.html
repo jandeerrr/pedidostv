@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Minha Plataforma</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="topo">
+        <div class="logo">
+            🎬 MINHA PLATAFORMA
+        </div>
+
+        <input
+            type="text"
+            id="pesquisa"
+            placeholder="Pesquisar vídeos..."
+        >
+    </header>
+
+
+    <main>
+
+        <!-- PLAYER -->
+
+        <section class="player-area">
+
+            <video
+                id="player"
+                controls
+                playsinline
+                preload="metadata">
+            </video>
+
+        </section>
+
+
+        <!-- INFORMAÇÕES DO VÍDEO -->
+
+        <section class="informacoes">
+
+            <h1 id="titulo">
+                Escolha um vídeo
+            </h1>
+
+            <div class="avaliacao">
+
+                <span id="nota">★ 0.0</span>
+
+                <span id="ano"></span>
+
+                <span id="categoria"></span>
+
+            </div>
+
+            <p id="sinopse">
+                Selecione um vídeo para visualizar as informações.
+            </p>
+
+        </section>
+
+
+        <!-- CATÁLOGO -->
+
+        <section class="catalogo">
+
+            <h2>Vídeos</h2>
+
+            <div
+                id="listaVideos"
+                class="lista-videos">
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="catalogo.js"></script>
+
+</body>
+
+</html>
