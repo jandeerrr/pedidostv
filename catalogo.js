@@ -9,7 +9,7 @@ const videos = [
 
         titulo: "Meu Primeiro Vídeo",
 
-        capa: "",
+        capa: "Video0.jpg",
 
         sinopse:
             "Coloque aqui a descrição ou sinopse do vídeo.",
