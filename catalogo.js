@@ -1,5 +1,5 @@
 const SERVIDOR =
-    "https://bias-nancy-opitical-animated.trycloudflare.com";
+    "https://bias-nancy-optical-animated.trycloudflare.com/";
 
 
 const videos = [
