@@ -1,97 +1,151 @@
-const SERVIDOR =
-    "https://bias-nancy-optical-animated.trycloudflare.com";
+const SERVIDOR = "https://bias-nancy-optical-animated.trycloudflare.com";
+
+const player = document.getElementById("player");
+const lista = document.getElementById("listaVideos");
+const titulo = document.getElementById("titulo");
+const sinopse = document.getElementById("sinopse");
+const nota = document.getElementById("nota");
+const ano = document.getElementById("ano");
+const categoria = document.getElementById("categoria");
+const pesquisa = document.getElementById("pesquisa");
 
 
-const videos = [
+/* =====================================================
+   BUSCAR AUTOMATICAMENTE OS VÍDEOS DO SERVIDOR
+   ===================================================== */
 
-    {
-        arquivo: "Video0.mp4",
+async function carregarVideos() {
 
-        titulo: "Meu Primeiro Vídeo",
+    try {
 
-        capa: "Video0.jpg",
+        const resposta = await fetch(SERVIDOR + "/");
 
-        sinopse:
-            "Coloque aqui a descrição ou sinopse do vídeo.",
+        if (!resposta.ok) {
+            throw new Error("Não foi possível acessar o servidor.");
+        }
 
-        nota: "8.5",
+        const html = await resposta.text();
 
-        ano: "2026",
+        // Transforma o HTML recebido em documento
+        const parser = new DOMParser();
 
-        categoria: "Vídeo"
-    },
-
-
-    {
-        arquivo: "Video1.mp4",
-
-        titulo: "Video 1",
-
-        capa: "",
-
-        sinopse:
-            "Descrição do segundo vídeo.",
-
-        nota: "9.0",
-
-        ano: "2026",
-
-        categoria: "Filme"
-    },
+        const documento =
+            parser.parseFromString(html, "text/html");
 
 
-    {
-        arquivo: "Video2.mp4",
+        // Pega todos os links encontrados na página
+        const links =
+            documento.querySelectorAll("a");
 
-        titulo: "Video 2",
 
-        capa: "",
+        const videos = [];
 
-        sinopse:
-            "Descrição do terceiro vídeo.",
 
-        nota: "7.8",
+        links.forEach(link => {
 
-        ano: "2026",
+            const href = link.getAttribute("href");
 
-        categoria: "Série"
+            if (!href) return;
+
+
+            // Procuramos somente arquivos MP4
+            if (href.toLowerCase().endsWith(".mp4")) {
+
+                let arquivo =
+                    decodeURIComponent(
+                        href.split("/").pop()
+                    );
+
+
+                // Remove duplicados
+                if (
+                    !videos.some(
+                        video => video.arquivo === arquivo
+                    )
+                ) {
+
+                    videos.push({
+
+                        arquivo: arquivo,
+
+                        // O nome do arquivo vira o título
+                        titulo:
+                            arquivo.replace(
+                                /\.mp4$/i,
+                                ""
+                            ),
+
+                        capa: "",
+
+                        sinopse:
+                            "Descrição ainda não cadastrada.",
+
+                        nota: "0.0",
+
+                        ano: "",
+
+                        categoria: "Vídeo"
+
+                    });
+
+                }
+
+            }
+
+        });
+
+
+        console.log(
+            "Vídeos encontrados:",
+            videos
+        );
+
+
+        criarCatalogo(videos);
+
+
+        // Guarda para a pesquisa
+        window.todosVideos = videos;
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar vídeos:",
+            erro
+        );
+
+
+        lista.innerHTML = `
+            <p class="erro">
+                Não foi possível carregar os vídeos.
+            </p>
+        `;
+
     }
 
-];
+}
 
 
-const player =
-    document.getElementById("player");
-
-const lista =
-    document.getElementById("listaVideos");
-
-const titulo =
-    document.getElementById("titulo");
-
-const sinopse =
-    document.getElementById("sinopse");
-
-const nota =
-    document.getElementById("nota");
-
-const ano =
-    document.getElementById("ano");
-
-const categoria =
-    document.getElementById("categoria");
-
-const pesquisa =
-    document.getElementById("pesquisa");
-
-
+/* =====================================================
+   ABRIR VÍDEO
+   ===================================================== */
 
 function abrirVideo(video) {
 
-    player.src =
+    const endereco =
         SERVIDOR +
         "/video/" +
         encodeURIComponent(video.arquivo);
+
+
+    console.log(
+        "Abrindo:",
+        endereco
+    );
+
+
+    player.src = endereco;
 
     player.load();
 
@@ -118,22 +172,37 @@ function abrirVideo(video) {
         top: 0,
         behavior: "smooth"
     });
+
 }
 
 
+/* =====================================================
+   CRIAR OS CARDS
+   ===================================================== */
 
-function criarCatalogo(listaVideos) {
+function criarCatalogo(videos) {
 
     lista.innerHTML = "";
 
 
-    listaVideos.forEach(video => {
+    if (videos.length === 0) {
+
+        lista.innerHTML = `
+            <p>
+                Nenhum vídeo encontrado.
+            </p>
+        `;
+
+        return;
+    }
+
+
+    videos.forEach(video => {
 
         const card =
             document.createElement("div");
 
-        card.className =
-            "card";
+        card.className = "card";
 
 
         card.innerHTML = `
@@ -166,6 +235,7 @@ function criarCatalogo(listaVideos) {
                     ${video.titulo}
                 </h3>
 
+
                 <div class="card-meta">
 
                     <span>
@@ -196,6 +266,9 @@ function criarCatalogo(listaVideos) {
 }
 
 
+/* =====================================================
+   PESQUISA
+   ===================================================== */
 
 pesquisa.addEventListener(
     "input",
@@ -208,10 +281,12 @@ pesquisa.addEventListener(
 
 
         const resultado =
-            videos.filter(video =>
+            window.todosVideos.filter(video =>
+
                 video.titulo
                     .toLowerCase()
                     .includes(termo)
+
             );
 
 
@@ -221,5 +296,8 @@ pesquisa.addEventListener(
 );
 
 
+/* =====================================================
+   INICIAR
+   ===================================================== */
 
-criarCatalogo(videos);
+carregarVideos();
