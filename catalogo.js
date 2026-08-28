@@ -1,5 +1,5 @@
 const SERVIDOR =
-    "https://zen-gmt-own-precious.trycloudflare.com";
+    "https://bias-nancy-opitical=animated.trycloudflare.com";
 
 
 const videos = [
