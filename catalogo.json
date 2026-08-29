@@ -1,0 +1,15 @@
+{
+    "Video0.mp4": {
+        "sinopse": "Sinopse do Video0.",
+        "nota": "8.5",
+        "ano": "2026",
+        "categoria": "Filme"
+    },
+
+    "Video1.mp4": {
+        "sinopse": "Sinopse do Video1.",
+        "nota": "9.0",
+        "ano": "2026",
+        "categoria": "Filme"
+    }
+}

@@ -1,39 +1,110 @@
-const SERVIDOR = "https://bias-nancy-optical-animated.trycloudflare.com";
+const SERVIDOR =
+    "https://bias-nancy-optical-animated.trycloudflare.com";
 
-const player = document.getElementById("player");
-const lista = document.getElementById("listaVideos");
-const titulo = document.getElementById("titulo");
-const sinopse = document.getElementById("sinopse");
-const nota = document.getElementById("nota");
-const ano = document.getElementById("ano");
-const categoria = document.getElementById("categoria");
-const pesquisa = document.getElementById("pesquisa");
+
+const player =
+    document.getElementById("player");
+
+const lista =
+    document.getElementById("listaVideos");
+
+const titulo =
+    document.getElementById("titulo");
+
+const sinopse =
+    document.getElementById("sinopse");
+
+const nota =
+    document.getElementById("nota");
+
+const ano =
+    document.getElementById("ano");
+
+const categoria =
+    document.getElementById("categoria");
+
+const pesquisa =
+    document.getElementById("pesquisa");
+
+
+let todosVideos = [];
+
 
 
 /* =====================================================
-   BUSCAR AUTOMATICAMENTE OS VÍDEOS DO SERVIDOR
+   CARREGAR INFORMAÇÕES DO JSON
+   ===================================================== */
+
+async function carregarCatalogo() {
+
+    try {
+
+        const resposta =
+            await fetch("catalogo.json");
+
+        if (!resposta.ok) {
+            throw new Error(
+                "Não foi possível carregar catalogo.json"
+            );
+        }
+
+        return await resposta.json();
+
+    } catch (erro) {
+
+        console.warn(
+            "JSON não encontrado ou inválido.",
+            erro
+        );
+
+        return {};
+
+    }
+
+}
+
+
+
+/* =====================================================
+   BUSCAR VÍDEOS DO SERVIDOR
    ===================================================== */
 
 async function carregarVideos() {
 
     try {
 
-        const resposta = await fetch(SERVIDOR + "/");
+        const catalogo =
+            await carregarCatalogo();
+
+
+        const resposta =
+            await fetch(SERVIDOR + "/");
+
 
         if (!resposta.ok) {
-            throw new Error("Não foi possível acessar o servidor.");
+
+            throw new Error(
+                "Não foi possível acessar o servidor."
+            );
+
         }
 
-        const html = await resposta.text();
 
-        // Transforma o HTML recebido em documento
-        const parser = new DOMParser();
+        const html =
+            await resposta.text();
+
+
+        const parser =
+            new DOMParser();
+
 
         const documento =
-            parser.parseFromString(html, "text/html");
+            parser.parseFromString(
+                html,
+                "text/html"
+            );
 
 
-        // Pega todos os links encontrados na página
         const links =
             documento.querySelectorAll("a");
 
@@ -43,48 +114,75 @@ async function carregarVideos() {
 
         links.forEach(link => {
 
-            const href = link.getAttribute("href");
+            const href =
+                link.getAttribute("href");
+
 
             if (!href) return;
 
 
-            // Procuramos somente arquivos MP4
-            if (href.toLowerCase().endsWith(".mp4")) {
+            if (
+                href
+                    .toLowerCase()
+                    .endsWith(".mp4")
+            ) {
 
-                let arquivo =
+                const arquivo =
                     decodeURIComponent(
-                        href.split("/").pop()
+                        href
+                            .split("/")
+                            .pop()
                     );
 
 
-                // Remove duplicados
                 if (
                     !videos.some(
-                        video => video.arquivo === arquivo
+                        video =>
+                            video.arquivo === arquivo
                     )
                 ) {
+
+
+                    const dados =
+                        catalogo[arquivo] || {};
+
+
+                    const nome =
+                        arquivo.replace(
+                            /\.mp4$/i,
+                            ""
+                        );
+
 
                     videos.push({
 
                         arquivo: arquivo,
 
-                        // O nome do arquivo vira o título
-                        titulo:
-                            arquivo.replace(
-                                /\.mp4$/i,
-                                ""
-                            ),
+                        // Nome do arquivo = título
+                        titulo: nome,
 
-                        capa: "",
+                        // Capa automática
+                        capa:
+                            SERVIDOR +
+                            "/video/capas/" +
+                            encodeURIComponent(nome) +
+                            ".jpg",
 
                         sinopse:
+                            dados.sinopse ||
                             "Descrição ainda não cadastrada.",
 
-                        nota: "0.0",
+                        nota:
+                            dados.nota ||
+                            "0.0",
 
-                        ano: "",
+                        ano:
+                            dados.ano ||
+                            "",
 
-                        categoria: "Vídeo"
+                        categoria:
+                            dados.categoria ||
+                            "Vídeo"
 
                     });
 
@@ -95,6 +193,10 @@ async function carregarVideos() {
         });
 
 
+        todosVideos =
+            videos;
+
+
         console.log(
             "Vídeos encontrados:",
             videos
@@ -102,10 +204,6 @@ async function carregarVideos() {
 
 
         criarCatalogo(videos);
-
-
-        // Guarda para a pesquisa
-        window.todosVideos = videos;
 
 
     } catch (erro) {
@@ -127,6 +225,7 @@ async function carregarVideos() {
 }
 
 
+
 /* =====================================================
    ABRIR VÍDEO
    ===================================================== */
@@ -136,33 +235,37 @@ function abrirVideo(video) {
     const endereco =
         SERVIDOR +
         "/video/" +
-        encodeURIComponent(video.arquivo);
+        encodeURIComponent(
+            video.arquivo
+        );
 
 
-    console.log(
-        "Abrindo:",
-        endereco
-    );
+    player.src =
+        endereco;
 
-
-    player.src = endereco;
 
     player.load();
 
-    player.play().catch(() => {});
+
+    player.play()
+        .catch(() => {});
 
 
     titulo.textContent =
         video.titulo;
 
+
     sinopse.textContent =
         video.sinopse;
+
 
     nota.textContent =
         "★ " + video.nota;
 
+
     ano.textContent =
         video.ano;
+
 
     categoria.textContent =
         video.categoria;
@@ -176,8 +279,9 @@ function abrirVideo(video) {
 }
 
 
+
 /* =====================================================
-   CRIAR OS CARDS
+   CRIAR CARDS
    ===================================================== */
 
 function criarCatalogo(videos) {
@@ -194,6 +298,7 @@ function criarCatalogo(videos) {
         `;
 
         return;
+
     }
 
 
@@ -202,29 +307,30 @@ function criarCatalogo(videos) {
         const card =
             document.createElement("div");
 
-        card.className = "card";
+
+        card.className =
+            "card";
 
 
         card.innerHTML = `
 
             <div class="capa">
 
-                ${
-                    video.capa
+                <img
+                    src="${video.capa}"
+                    alt="${video.titulo}"
+                    loading="lazy"
+                    onerror="
+                        this.style.display='none';
+                        this.nextElementSibling.style.display='flex';
+                    "
+                >
 
-                    ?
-
-                    `<img
-                        src="${video.capa}"
-                        alt="${video.titulo}">
-                    `
-
-                    :
-
-                    `<div class="sem-capa">
-                        ▶
-                    </div>`
-                }
+                <div
+                    class="sem-capa"
+                    style="display:none;">
+                    ▶
+                </div>
 
             </div>
 
@@ -266,6 +372,7 @@ function criarCatalogo(videos) {
 }
 
 
+
 /* =====================================================
    PESQUISA
    ===================================================== */
@@ -281,12 +388,11 @@ pesquisa.addEventListener(
 
 
         const resultado =
-            window.todosVideos.filter(video =>
-
-                video.titulo
-                    .toLowerCase()
-                    .includes(termo)
-
+            todosVideos.filter(
+                video =>
+                    video.titulo
+                        .toLowerCase()
+                        .includes(termo)
             );
 
 
@@ -294,6 +400,7 @@ pesquisa.addEventListener(
 
     }
 );
+
 
 
 /* =====================================================
