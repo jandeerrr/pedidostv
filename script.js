@@ -1,5 +1,5 @@
 const servidor =
-    "https://zen-gmt-own-precious.trycloudflare.com";
+    "https://quotations-stop-olive-hosts.trycloudflare.com";
 
 function abrirVideo(nome) {
 
