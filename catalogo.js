@@ -1,5 +1,5 @@
 const SERVIDOR =
-    "https://bias-nancy-optical-animated.trycloudflare.com";
+    "https://quotations-stop-olive-hosts.trycloudflare.com";
 
 
 const player =
