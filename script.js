@@ -1,5 +1,5 @@
 const servidor =
-    "https://quotations-stop-olive-hosts.trycloudflare.com";
+    "https://aircraft-headphones-institution-indiana.trycloudflare.com/";
 
 function abrirVideo(nome) {
 
