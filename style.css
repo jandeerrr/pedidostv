@@ -1,144 +1,112 @@
 
-/* =========================
-   CARDS - ESTILO STREAMING
-========================= */
-
 .card {
-    position: relative;
-    background: #151515;
-    border-radius: 12px;
+    background: #171717;
+
+    border-radius: 8px;
+
     overflow: hidden;
+
     cursor: pointer;
 
-    border: 1px solid #242424;
-
     transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease,
-        border-color 0.25s ease;
-
-    box-shadow: 0 5px 20px rgba(0,0,0,0.35);
+        transform 0.2s,
+        background 0.2s;
 }
 
 
-/* EFEITO AO PASSAR O MOUSE */
+/* EFEITO DO CARD */
 
 .card:hover {
-    transform: translateY(-6px) scale(1.02);
+    transform: scale(1.04);
 
-    border-color: #444;
-
-    box-shadow:
-        0 12px 30px rgba(0,0,0,0.65),
-        0 0 0 1px rgba(255,255,255,0.04);
+    background: #222;
 }
 
 
-/* CAPA */
+/* =========================
+   CAPA
+========================= */
 
 .capa {
-    position: relative;
-
     width: 100%;
-    aspect-ratio: 16 / 9;
 
-    background: #202020;
+    /* Capa vertical de filme */
+    aspect-ratio: 2 / 3;
+
+    background: #111;
 
     overflow: hidden;
+
+    position: relative;
 }
 
 
-/* IMAGEM */
+/* IMAGEM DA CAPA */
 
 .capa img {
     width: 100%;
+
     height: 100%;
 
+    /*
+       Mantém a proporção original
+       sem deformar a imagem
+    */
     object-fit: cover;
+
+    object-position: center;
 
     display: block;
 
-    transition:
-        transform 0.4s ease,
-        filter 0.4s ease;
+    transition: transform 0.3s ease;
 }
 
 
-/* ZOOM DA CAPA */
+/* PEQUENO ZOOM AO PASSAR O MOUSE */
 
 .card:hover .capa img {
-    transform: scale(1.08);
-    filter: brightness(0.75);
+    transform: scale(1.04);
 }
 
 
-/* GRADIENTE SOBRE A CAPA */
-
-.capa::after {
-    content: "";
-
-    position: absolute;
-
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    height: 45%;
-
-    background:
-        linear-gradient(
-            to top,
-            rgba(0,0,0,0.75),
-            transparent
-        );
-
-    pointer-events: none;
-}
-
-
-/* SEM CAPA */
+/* =========================
+   SEM CAPA
+========================= */
 
 .sem-capa {
     width: 100%;
+
     height: 100%;
+
+    min-height: 280px;
 
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
-    font-size: 42px;
+    font-size: 40px;
 
-    color: #666;
+    color: #777;
 
-    background:
-        linear-gradient(
-            135deg,
-            #222,
-            #111
-        );
+    background: #222;
 }
 
 
-/* INFORMAÇÕES */
+/* =========================
+   INFORMAÇÕES
+========================= */
 
 .card-info {
-    padding: 13px 14px 15px;
-
-    background: #151515;
+    padding: 12px;
 }
 
-
-/* TÍTULO */
 
 .card-info h3 {
     font-size: 16px;
 
-    font-weight: 600;
-
-    color: #f2f2f2;
-
-    margin-bottom: 9px;
+    margin-bottom: 8px;
 
     white-space: nowrap;
 
@@ -148,101 +116,19 @@
 }
 
 
-/* META */
-
 .card-meta {
     display: flex;
 
-    align-items: center;
+    gap: 12px;
 
-    gap: 10px;
-
-    color: #888;
+    color: #999;
 
     font-size: 13px;
 }
 
 
-/* NOTA */
-
 .card-meta span:first-child {
     color: #f5c518;
-
-    font-weight: bold;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 3px;
-}
-
-
-/* SEPARADOR */
-
-.card-meta span:not(:last-child)::after {
-    content: "•";
-
-    color: #555;
-
-    margin-left: 10px;
-}
-
-
-/* BOTÃO PLAY APARECENDO NA CAPA */
-
-.card::before {
-    content: "▶";
-
-    position: absolute;
-
-    top: 50%;
-    left: 50%;
-
-    transform:
-        translate(-50%, -50%)
-        scale(0.7);
-
-    width: 52px;
-    height: 52px;
-
-    border-radius: 50%;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    padding-left: 3px;
-
-    background: rgba(0,0,0,0.75);
-
-    border: 1px solid rgba(255,255,255,0.25);
-
-    color: white;
-
-    font-size: 18px;
-
-    opacity: 0;
-
-    transition:
-        opacity 0.25s ease,
-        transform 0.25s ease;
-
-    z-index: 3;
-
-    pointer-events: none;
-}
-
-
-/* PLAY APARECE NO HOVER */
-
-.card:hover::before {
-    opacity: 1;
-
-    transform:
-        translate(-50%, -50%)
-        scale(1);
 }
 
 
@@ -253,18 +139,19 @@
 @media (max-width: 700px) {
 
     .card {
-        border-radius: 9px;
+        border-radius: 7px;
     }
 
     .card:hover {
-        transform: none;
+        transform: scale(1.02);
+    }
 
-        box-shadow:
-            0 5px 15px rgba(0,0,0,0.4);
+    .capa {
+        aspect-ratio: 2 / 3;
     }
 
     .card-info {
-        padding: 9px 10px 11px;
+        padding: 9px;
     }
 
     .card-info h3 {
@@ -277,17 +164,6 @@
         font-size: 11px;
 
         gap: 7px;
-    }
-
-    .card-meta span:not(:last-child)::after {
-        margin-left: 7px;
-    }
-
-    .card::before {
-        width: 42px;
-        height: 42px;
-
-        font-size: 15px;
     }
 
 }
