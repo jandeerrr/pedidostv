@@ -1,3 +1,166 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #0b0b0b;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+
+/* TOPO */
+
+.topo {
+    height: 70px;
+
+    background: #151515;
+
+    display: flex;
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 5%;
+
+    position: sticky;
+    top: 0;
+
+    z-index: 10;
+}
+
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+#pesquisa {
+    width: 300px;
+
+    padding: 12px 15px;
+
+    border-radius: 6px;
+
+    border: 1px solid #333;
+
+    background: #222;
+
+    color: white;
+
+    outline: none;
+}
+
+
+#pesquisa:focus {
+    border-color: #666;
+}
+
+
+
+/* CONTEÚDO */
+
+main {
+    width: 90%;
+    max-width: 1400px;
+
+    margin: auto;
+}
+
+
+
+/* PLAYER */
+
+.player-area {
+    margin-top: 30px;
+
+    background: black;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+
+.player-area video {
+    width: 100%;
+
+    max-height: 720px;
+
+    display: block;
+}
+
+
+
+/* INFORMAÇÕES */
+
+.informacoes {
+    padding: 25px 5px;
+}
+
+
+.informacoes h1 {
+    font-size: 28px;
+
+    margin-bottom: 12px;
+}
+
+
+.avaliacao {
+    display: flex;
+
+    gap: 20px;
+
+    color: #aaa;
+
+    margin-bottom: 15px;
+}
+
+
+#nota {
+    color: #f5c518;
+
+    font-weight: bold;
+}
+
+
+#sinopse {
+    color: #bbb;
+
+    max-width: 850px;
+
+    line-height: 1.6;
+}
+
+
+
+/* CATÁLOGO */
+
+.catalogo {
+    padding: 20px 0 50px;
+}
+
+
+.catalogo h2 {
+    margin-bottom: 20px;
+}
+
+
+.lista-videos {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(190px, 1fr));
+
+    gap: 20px;
+}
+
+
+
+/* CARD */
 
 .card {
     background: #171717;
@@ -14,8 +177,6 @@
 }
 
 
-/* EFEITO DO CARD */
-
 .card:hover {
     transform: scale(1.04);
 
@@ -23,11 +184,6 @@
 }
 
 
-/* =========================
-   CAPA
-========================= */
-
-```css
 .capa {
     width: 100%;
 
@@ -36,12 +192,6 @@
     background: #222;
 
     overflow: hidden;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
 }
 
 
@@ -50,33 +200,14 @@
 
     height: 100%;
 
-    object-fit: contain;
-
-    object-position: center;
-
-    display: block;
-}
-```
-
-
-
-/* PEQUENO ZOOM AO PASSAR O MOUSE */
-
-.card:hover .capa img {
-    transform: scale(1.04);
+    object-fit: cover;
 }
 
-
-/* =========================
-   SEM CAPA
-========================= */
 
 .sem-capa {
     width: 100%;
 
     height: 100%;
-
-    min-height: 280px;
 
     display: flex;
 
@@ -87,14 +218,8 @@
     font-size: 40px;
 
     color: #777;
-
-    background: #222;
 }
 
-
-/* =========================
-   INFORMAÇÕES
-========================= */
 
 .card-info {
     padding: 12px;
@@ -105,12 +230,6 @@
     font-size: 16px;
 
     margin-bottom: 8px;
-
-    white-space: nowrap;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
 }
 
 
@@ -130,39 +249,42 @@
 }
 
 
-/* =========================
-   CELULAR
-========================= */
+
+/* CELULAR */
 
 @media (max-width: 700px) {
 
-    .card {
-        border-radius: 7px;
+    .topo {
+        height: auto;
+
+        padding: 15px;
+
+        flex-direction: column;
+
+        gap: 15px;
     }
 
-    .card:hover {
-        transform: scale(1.02);
+
+    #pesquisa {
+        width: 100%;
     }
 
-    .capa {
-        aspect-ratio: 2 / 3;
+
+    main {
+        width: 95%;
     }
 
-    .card-info {
-        padding: 9px;
+
+    .lista-videos {
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 10px;
     }
 
-    .card-info h3 {
-        font-size: 14px;
 
-        margin-bottom: 6px;
-    }
-
-    .card-meta {
-        font-size: 11px;
-
-        gap: 7px;
+    .informacoes h1 {
+        font-size: 22px;
     }
 
 }
-
