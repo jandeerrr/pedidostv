@@ -1,290 +1,294 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+```css
+/* =========================
+   CARDS - ESTILO STREAMING
+========================= */
 
-body {
-    background: #0b0b0b;
-    color: white;
-    font-family: Arial, sans-serif;
-}
-
-
-/* TOPO */
-
-.topo {
-    height: 70px;
-
+.card {
+    position: relative;
     background: #151515;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
 
-    display: flex;
-    align-items: center;
+    border: 1px solid #242424;
 
-    justify-content: space-between;
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
 
-    padding: 0 5%;
-
-    position: sticky;
-    top: 0;
-
-    z-index: 10;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.35);
 }
 
 
-.logo {
-    font-size: 20px;
-    font-weight: bold;
+/* EFEITO AO PASSAR O MOUSE */
+
+.card:hover {
+    transform: translateY(-6px) scale(1.02);
+
+    border-color: #444;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,0.65),
+        0 0 0 1px rgba(255,255,255,0.04);
 }
 
 
-#pesquisa {
-    width: 300px;
+/* CAPA */
 
-    padding: 12px 15px;
+.capa {
+    position: relative;
 
-    border-radius: 6px;
+    width: 100%;
+    aspect-ratio: 16 / 9;
 
-    border: 1px solid #333;
-
-    background: #222;
-
-    color: white;
-
-    outline: none;
-}
-
-
-#pesquisa:focus {
-    border-color: #666;
-}
-
-
-
-/* CONTEÚDO */
-
-main {
-    width: 90%;
-    max-width: 1400px;
-
-    margin: auto;
-}
-
-
-
-/* PLAYER */
-
-.player-area {
-    margin-top: 30px;
-
-    background: black;
-
-    border-radius: 10px;
+    background: #202020;
 
     overflow: hidden;
 }
 
 
-.player-area video {
-    width: 100%;
+/* IMAGEM */
 
-    max-height: 720px;
+.capa img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
 
     display: block;
+
+    transition:
+        transform 0.4s ease,
+        filter 0.4s ease;
 }
 
+
+/* ZOOM DA CAPA */
+
+.card:hover .capa img {
+    transform: scale(1.08);
+    filter: brightness(0.75);
+}
+
+
+/* GRADIENTE SOBRE A CAPA */
+
+.capa::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 45%;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,0.75),
+            transparent
+        );
+
+    pointer-events: none;
+}
+
+
+/* SEM CAPA */
+
+.sem-capa {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 42px;
+
+    color: #666;
+
+    background:
+        linear-gradient(
+            135deg,
+            #222,
+            #111
+        );
+}
 
 
 /* INFORMAÇÕES */
 
-.informacoes {
-    padding: 25px 5px;
-}
-
-
-.informacoes h1 {
-    font-size: 28px;
-
-    margin-bottom: 12px;
-}
-
-
-.avaliacao {
-    display: flex;
-
-    gap: 20px;
-
-    color: #aaa;
-
-    margin-bottom: 15px;
-}
-
-
-#nota {
-    color: #f5c518;
-
-    font-weight: bold;
-}
-
-
-#sinopse {
-    color: #bbb;
-
-    max-width: 850px;
-
-    line-height: 1.6;
-}
-
-
-
-/* CATÁLOGO */
-
-.catalogo {
-    padding: 20px 0 50px;
-}
-
-
-.catalogo h2 {
-    margin-bottom: 20px;
-}
-
-
-.lista-videos {
-    display: grid;
-
-    grid-template-columns:
-        repeat(auto-fill, minmax(190px, 1fr));
-
-    gap: 20px;
-}
-
-
-
-/* CARD */
-
-.card {
-    background: #171717;
-
-    border-radius: 8px;
-
-    overflow: hidden;
-
-    cursor: pointer;
-
-    transition:
-        transform 0.2s,
-        background 0.2s;
-}
-
-
-.card:hover {
-    transform: scale(1.04);
-
-    background: #222;
-}
-
-
-.capa {
-    width: 100%;
-
-    aspect-ratio: 16 / 9;
-
-    background: #222;
-
-    overflow: hidden;
-}
-
-
-.capa img {
-    width: 100%;
-
-    height: 100%;
-
-    object-fit: cover;
-}
-
-
-.sem-capa {
-    width: 100%;
-
-    height: 100%;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-size: 40px;
-
-    color: #777;
-}
-
-
 .card-info {
-    padding: 12px;
+    padding: 13px 14px 15px;
+
+    background: #151515;
 }
 
+
+/* TÍTULO */
 
 .card-info h3 {
     font-size: 16px;
 
-    margin-bottom: 8px;
+    font-weight: 600;
+
+    color: #f2f2f2;
+
+    margin-bottom: 9px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
 }
 
+
+/* META */
 
 .card-meta {
     display: flex;
 
-    gap: 12px;
+    align-items: center;
 
-    color: #999;
+    gap: 10px;
+
+    color: #888;
 
     font-size: 13px;
 }
 
 
+/* NOTA */
+
 .card-meta span:first-child {
     color: #f5c518;
+
+    font-weight: bold;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 3px;
 }
 
 
+/* SEPARADOR */
 
-/* CELULAR */
+.card-meta span:not(:last-child)::after {
+    content: "•";
+
+    color: #555;
+
+    margin-left: 10px;
+}
+
+
+/* BOTÃO PLAY APARECENDO NA CAPA */
+
+.card::before {
+    content: "▶";
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform:
+        translate(-50%, -50%)
+        scale(0.7);
+
+    width: 52px;
+    height: 52px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding-left: 3px;
+
+    background: rgba(0,0,0,0.75);
+
+    border: 1px solid rgba(255,255,255,0.25);
+
+    color: white;
+
+    font-size: 18px;
+
+    opacity: 0;
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+
+    z-index: 3;
+
+    pointer-events: none;
+}
+
+
+/* PLAY APARECE NO HOVER */
+
+.card:hover::before {
+    opacity: 1;
+
+    transform:
+        translate(-50%, -50%)
+        scale(1);
+}
+
+
+/* =========================
+   CELULAR
+========================= */
 
 @media (max-width: 700px) {
 
-    .topo {
-        height: auto;
-
-        padding: 15px;
-
-        flex-direction: column;
-
-        gap: 15px;
+    .card {
+        border-radius: 9px;
     }
 
+    .card:hover {
+        transform: none;
 
-    #pesquisa {
-        width: 100%;
+        box-shadow:
+            0 5px 15px rgba(0,0,0,0.4);
     }
 
-
-    main {
-        width: 95%;
+    .card-info {
+        padding: 9px 10px 11px;
     }
 
+    .card-info h3 {
+        font-size: 14px;
 
-    .lista-videos {
-        grid-template-columns:
-            repeat(2, 1fr);
-
-        gap: 10px;
+        margin-bottom: 6px;
     }
 
+    .card-meta {
+        font-size: 11px;
 
-    .informacoes h1 {
-        font-size: 22px;
+        gap: 7px;
+    }
+
+    .card-meta span:not(:last-child)::after {
+        margin-left: 7px;
+    }
+
+    .card::before {
+        width: 42px;
+        height: 42px;
+
+        font-size: 15px;
     }
 
 }
+```
