@@ -27,39 +27,37 @@
    CAPA
 ========================= */
 
+```css
 .capa {
     width: 100%;
 
-    /* Capa vertical de filme */
-    aspect-ratio: 2 / 3;
+    aspect-ratio: 16 / 9;
 
-    background: #111;
+    background: #222;
 
     overflow: hidden;
 
-    position: relative;
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
 }
 
-
-/* IMAGEM DA CAPA */
 
 .capa img {
     width: 100%;
 
     height: 100%;
 
-    /*
-       Mantém a proporção original
-       sem deformar a imagem
-    */
-    object-fit: cover;
+    object-fit: contain;
 
     object-position: center;
 
     display: block;
-
-    transition: transform 0.3s ease;
 }
+```
+
 
 
 /* PEQUENO ZOOM AO PASSAR O MOUSE */
